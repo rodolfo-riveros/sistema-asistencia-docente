@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\HorarioPersonals;
 use App\Models\Personal_ies;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -23,9 +24,11 @@ class ReporteAsistenciaPersonalController extends Controller
         $personalId = $request->personal_id;
 
         $query = Personal_ies::query()
-            ->with(['asistencias' => fn ($q) => $q
-                ->whereBetween('fecha', [$fechaInicio, $fechaFin])
-                ->orderBy('fecha')
+            ->with([
+                'asistencias' => fn ($q) => $q
+                    ->whereBetween('fecha', [$fechaInicio, $fechaFin])
+                    ->orderBy('fecha'),
+                'horarios' => fn ($q) => $q->activos()->orderBy('dia_semana'),
             ])
             ->where('activo', true)
             ->when($tipoPersonal, fn ($q) => $q->where('tipo_personal', $tipoPersonal))
@@ -85,11 +88,22 @@ class ReporteAsistenciaPersonalController extends Controller
                 continue;
             }
 
+            $horarioSemanal = $personal->horarios->map(fn ($h) => [
+                'dia' => HorarioPersonals::DIAS[$h->dia_semana] ?? $h->dia_semana,
+                'entrada' => substr($h->hora_entrada, 0, 5),
+                'salida_manana' => $h->hora_salida_maniana ? substr($h->hora_salida_maniana, 0, 5) : null,
+                'entrada_tarde' => $h->hora_entrada_tarde ? substr($h->hora_entrada_tarde, 0, 5) : null,
+                'salida' => substr($h->hora_salida, 0, 5),
+            ])->values()->toArray();
+
             $datosReporte[] = [
                 'personal' => $personal->nombre_completo,
                 'dni' => $personal->dni,
                 'tipo' => $personal->tipo_personal_label,
                 'cargo' => $personal->cargo ?? '',
+                'telefono' => $personal->telefono ?? '',
+                'fecha_ingreso' => $personal->fecha_ingreso?->locale('es')->isoFormat('D MMM YYYY') ?? '',
+                'horarios' => $horarioSemanal,
                 'filas' => $filas,
                 'resumen' => [
                     'presentes' => $pPresentes,

@@ -186,7 +186,7 @@ new #[Title('Usuarios')] class extends Component {
         @endif
     </div>
 
-    <flux:modal wire:model="showModal" class="w-[450px]" wire:key="modal-usuario">
+    <flux:modal wire:model="showModal" class="w-full max-w-[450px]" wire:key="modal-usuario">
         <div class="space-y-6">
             <flux:heading size="lg">{{ $editingUserId ? __('Editar usuario') : __('Nuevo usuario') }}</flux:heading>
 

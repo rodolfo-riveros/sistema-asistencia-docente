@@ -12,6 +12,12 @@
         .persona-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
         .persona-header h2 { font-size: 14px; margin: 0; }
         .persona-header .meta { color: #6b7280; font-size: 11px; }
+        .detalle { display: flex; gap: 24px; margin: 8px 0 4px; padding: 8px 10px; background: #f9fafb; border-radius: 6px; font-size: 11px; flex-wrap: wrap; }
+        .detalle dl { margin: 0; display: grid; grid-template-columns: auto auto; gap: 2px 8px; }
+        .detalle dt { color: #6b7280; }
+        .detalle dd { margin: 0; }
+        .horarios { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+        .horario-chip { background: #e5e7eb; border-radius: 10px; padding: 2px 8px; font-size: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 6px; }
         th, td { border: 1px solid #e5e7eb; padding: 4px 6px; text-align: left; }
         th { background: #f3f4f6; }
@@ -38,6 +44,25 @@
             <div class="persona-header">
                 <h2>{{ $persona['personal'] }} — {{ $persona['tipo'] }}</h2>
                 <div class="meta">DNI {{ $persona['dni'] }} @if($persona['cargo']) · {{ $persona['cargo'] }} @endif</div>
+            </div>
+
+            <div class="detalle">
+                <dl>
+                    <dt>DNI</dt><dd>{{ $persona['dni'] }}</dd>
+                    <dt>Teléfono</dt><dd>{{ $persona['telefono'] ?: '—' }}</dd>
+                    <dt>Ingreso</dt><dd>{{ $persona['fecha_ingreso'] ?: '—' }}</dd>
+                </dl>
+                <div class="horarios">
+                    @forelse ($persona['horarios'] as $h)
+                        <span class="horario-chip">
+                            <strong>{{ $h['dia'] }}</strong>
+                            {{ $h['entrada'] }}–{{ $h['entrada_tarde'] ? $h['salida_manana'] : $h['salida'] }}
+                            @if ($h['entrada_tarde']) / {{ $h['entrada_tarde'] }}–{{ $h['salida'] }} @endif
+                        </span>
+                    @empty
+                        <span class="horario-chip">Sin horario configurado</span>
+                    @endforelse
+                </div>
             </div>
 
             <table>

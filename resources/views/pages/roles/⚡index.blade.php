@@ -120,6 +120,7 @@ new #[Title('Roles y Permisos')] class extends Component {
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {{-- Roles --}}
         <div class="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-xl shadow-md border border-zinc-200 dark:border-zinc-800 overflow-hidden">
+            <div class="overflow-x-auto">
             <table class="w-full text-sm">
                 <thead class="bg-zinc-50 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700">
                     <tr>
@@ -160,6 +161,7 @@ new #[Title('Roles y Permisos')] class extends Component {
                     @endforeach
                 </tbody>
             </table>
+            </div>
         </div>
 
         {{-- Permisos dinámicos --}}
@@ -194,7 +196,7 @@ new #[Title('Roles y Permisos')] class extends Component {
     </div>
 
     {{-- Modal crear/editar rol --}}
-    <flux:modal wire:model="showRoleModal" class="w-[500px]" wire:key="modal-rol">
+    <flux:modal wire:model="showRoleModal" class="w-full max-w-[500px]" wire:key="modal-rol">
         <div class="space-y-6">
             <flux:heading size="lg">{{ $editingRoleId ? __('Editar rol') : __('Nuevo rol') }}</flux:heading>
 

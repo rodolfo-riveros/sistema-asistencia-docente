@@ -504,7 +504,7 @@ new #[Title('Asistencia de personal')] class extends Component {
     </div>
 
     {{-- Modal: Registro / edición manual de asistencia --}}
-    <flux:modal wire:model="showModal" class="w-[450px]" wire:key="modal-registro">
+    <flux:modal wire:model="showModal" class="w-full max-w-[450px]" wire:key="modal-registro">
         <div class="space-y-6">
             <flux:heading size="lg" class="flex items-center gap-2">
                 <flux:icon.clipboard-document-check class="w-5 h-5 text-indigo-500" />

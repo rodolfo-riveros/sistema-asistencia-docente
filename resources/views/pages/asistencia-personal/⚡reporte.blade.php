@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\HorarioPersonals;
 use App\Models\Personal_ies;
 use Carbon\Carbon;
 use Livewire\Attributes\Title;
@@ -44,9 +45,11 @@ new #[Title('Reporte de asistencia')] class extends Component {
         ]);
 
         $query = Personal_ies::query()
-            ->with(['asistencias' => fn ($q) => $q
-                ->whereBetween('fecha', [$this->fecha_inicio, $this->fecha_fin])
-                ->orderBy('fecha')
+            ->with([
+                'asistencias' => fn ($q) => $q
+                    ->whereBetween('fecha', [$this->fecha_inicio, $this->fecha_fin])
+                    ->orderBy('fecha'),
+                'horarios' => fn ($q) => $q->activos()->orderBy('dia_semana'),
             ])
             ->where('activo', true)
             ->when($this->tipo_personal, fn ($q) => $q->where('tipo_personal', $this->tipo_personal))
@@ -117,12 +120,24 @@ new #[Title('Reporte de asistencia')] class extends Component {
             $totalJustificados += $pJustificados;
             $totalPresentes += $pPresentes;
 
+            $horarioSemanal = $personal->horarios->map(fn ($h) => [
+                'dia' => HorarioPersonals::DIAS[$h->dia_semana] ?? $h->dia_semana,
+                'entrada' => substr($h->hora_entrada, 0, 5),
+                'salida_manana' => $h->hora_salida_maniana ? substr($h->hora_salida_maniana, 0, 5) : null,
+                'entrada_tarde' => $h->hora_entrada_tarde ? substr($h->hora_entrada_tarde, 0, 5) : null,
+                'salida' => substr($h->hora_salida, 0, 5),
+                'tolerancia' => $h->tolerancia_minutos,
+            ])->values()->toArray();
+
             $this->datosReporte[] = [
                 'personal' => $personal->nombre_completo,
                 'dni' => $personal->dni,
                 'tipo' => $personal->tipo_personal_label,
                 'cargo' => $personal->cargo,
+                'telefono' => $personal->telefono,
+                'fecha_ingreso' => $personal->fecha_ingreso?->locale('es')->isoFormat('D MMM YYYY'),
                 'personal_id' => $personal->id,
+                'horarios' => $horarioSemanal,
                 'filas' => $filas,
                 'resumen' => [
                     'presentes' => $pPresentes,
@@ -298,6 +313,43 @@ new #[Title('Reporte de asistencia')] class extends Component {
                                 <flux:icon.chevron-down class="size-4 text-zinc-400 transition-transform group-open:rotate-180" />
                             </div>
                         </summary>
+
+                        <div class="p-4 border-b border-zinc-200 dark:border-zinc-700 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <div class="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">{{ __('Datos del personal') }}</div>
+                                <dl class="grid grid-cols-2 gap-x-3 gap-y-1.5 text-xs">
+                                    <dt class="text-zinc-400">{{ __('DNI') }}</dt>
+                                    <dd class="text-zinc-700 dark:text-zinc-300 font-mono">{{ $persona['dni'] }}</dd>
+                                    <dt class="text-zinc-400">{{ __('Tipo') }}</dt>
+                                    <dd class="text-zinc-700 dark:text-zinc-300">{{ $persona['tipo'] }}</dd>
+                                    <dt class="text-zinc-400">{{ __('Cargo') }}</dt>
+                                    <dd class="text-zinc-700 dark:text-zinc-300">{{ $persona['cargo'] ?: '—' }}</dd>
+                                    <dt class="text-zinc-400">{{ __('Teléfono') }}</dt>
+                                    <dd class="text-zinc-700 dark:text-zinc-300">{{ $persona['telefono'] ?: '—' }}</dd>
+                                    <dt class="text-zinc-400">{{ __('Ingreso') }}</dt>
+                                    <dd class="text-zinc-700 dark:text-zinc-300">{{ $persona['fecha_ingreso'] ?: '—' }}</dd>
+                                </dl>
+                            </div>
+                            <div>
+                                <div class="text-xs font-semibold text-zinc-400 uppercase tracking-wide mb-2">{{ __('Horario semanal') }}</div>
+                                @if (empty($persona['horarios']))
+                                    <p class="text-xs text-zinc-400">{{ __('Sin horario configurado.') }}</p>
+                                @else
+                                    <div class="flex flex-wrap gap-1.5">
+                                        @foreach ($persona['horarios'] as $h)
+                                            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300"
+                                                  title="{{ __('Tolerancia: :min min', ['min' => $h['tolerancia']]) }}">
+                                                <span class="font-semibold">{{ $h['dia'] }}</span>
+                                                <span class="font-mono">{{ $h['entrada'] }}–{{ $h['entrada_tarde'] ? $h['salida_manana'] : $h['salida'] }}</span>
+                                                @if ($h['entrada_tarde'])
+                                                    <span class="font-mono">/ {{ $h['entrada_tarde'] }}–{{ $h['salida'] }}</span>
+                                                @endif
+                                            </span>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="overflow-x-auto">
                             <table class="w-full text-sm">
