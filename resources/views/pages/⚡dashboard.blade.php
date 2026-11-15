@@ -60,12 +60,12 @@ new #[Title('Panel')] class extends Component {
     @endphp
 
     {{-- Encabezado --}}
-    <div class="rounded-2xl bg-gradient-to-br from-indigo-600 via-indigo-600 to-teal-600 text-white p-5 sm:p-6 shadow-sm">
+    <div class="rounded-2xl bg-gradient-to-br from-emerald-700 via-emerald-600 to-green-500 text-white p-5 sm:p-6 shadow-sm">
         <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-                <p class="text-indigo-100 text-sm">{{ ucfirst(now()->locale('es')->isoFormat('dddd D [de] MMMM [de] YYYY')) }} · {{ now()->format('H:i') }}</p>
+                <p class="text-emerald-100 text-sm">{{ ucfirst(now()->locale('es')->isoFormat('dddd D [de] MMMM [de] YYYY')) }} · {{ now()->format('H:i') }}</p>
                 <h1 class="text-2xl sm:text-3xl font-bold tracking-tight mt-1">{{ $saludo }}, {{ \Illuminate\Support\Str::of($usuario->name)->before(' ') }}</h1>
-                <p class="text-indigo-100 text-sm mt-1">{{ __('Panel de control de asistencia del personal') }}</p>
+                <p class="text-emerald-100 text-sm mt-1">{{ __('Panel de control de asistencia del personal') }}</p>
             </div>
 
             @if ($verStats)
@@ -75,12 +75,12 @@ new #[Title('Panel')] class extends Component {
                             <button type="button" role="tab" wire:click="$set('periodo', '{{ $clave }}')" aria-selected="{{ $periodo === (string) $clave ? 'true' : 'false' }}"
                                 @class([
                                     'px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition cursor-pointer',
-                                    'bg-white text-indigo-700 shadow-sm' => $periodo === (string) $clave,
+                                    'bg-white text-emerald-700 shadow-sm' => $periodo === (string) $clave,
                                     'text-white/90 hover:bg-white/10' => $periodo !== (string) $clave,
                                 ])>{{ $nombre }}</button>
                         @endforeach
                     </div>
-                    <span wire:loading class="text-xs text-indigo-100 inline-flex items-center gap-1"><flux:icon.loading class="size-4" /> {{ __('Actualizando…') }}</span>
+                    <span wire:loading class="text-xs text-emerald-100 inline-flex items-center gap-1"><flux:icon.loading class="size-4" /> {{ __('Actualizando…') }}</span>
                 </div>
             @endif
         </div>
@@ -195,7 +195,7 @@ new #[Title('Panel')] class extends Component {
                 <div class="xl:col-span-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
                     <div class="p-5 border-b border-zinc-100 dark:border-zinc-800">
                         <h2 id="decisiones-titulo" class="text-base font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                            <flux:icon.sparkles class="size-5 text-indigo-500" /> {{ __('Resumen y decisiones sugeridas') }}
+                            <flux:icon.sparkles class="size-5 text-emerald-500" /> {{ __('Resumen y decisiones sugeridas') }}
                         </h2>
                         <p class="text-sm text-zinc-600 dark:text-zinc-300 mt-2 leading-relaxed">{{ $p['resumen'] }}</p>
                     </div>
@@ -223,7 +223,7 @@ new #[Title('Panel')] class extends Component {
 
                                         @if ($alerta['accion'] && ($destino = $rutasAccion[$alerta['accion']['clave']] ?? null) && $usuario->can($destino['permiso']))
                                             <a href="{{ route($destino['ruta']) }}" wire:navigate
-                                               class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-indigo-700 dark:text-indigo-300 hover:underline">
+                                               class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:underline">
                                                 {{ $alerta['accion']['texto'] }} <flux:icon.arrow-right class="size-4" />
                                             </a>
                                         @endif
@@ -256,7 +256,7 @@ new #[Title('Panel')] class extends Component {
                 @endphp
                 <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-5">
                     <h2 class="text-base font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                        <flux:icon.chart-bar class="size-5 text-indigo-500" /> {{ __('Distribución de asistencias') }}
+                        <flux:icon.chart-bar class="size-5 text-emerald-500" /> {{ __('Distribución de asistencias') }}
                     </h2>
                     <div class="mt-5 flex flex-col items-center gap-5">
                         <div class="relative size-44 rounded-full" style="background: conic-gradient({{ $gradiente }})" role="img" aria-label="{{ __('Gráfico de distribución de asistencias') }}">
@@ -286,7 +286,7 @@ new #[Title('Panel')] class extends Component {
                 <div class="xl:col-span-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-5">
                     <div class="flex flex-wrap items-center justify-between gap-2">
                         <h2 class="text-base font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                            <flux:icon.arrow-trending-up class="size-5 text-indigo-500" /> {{ __('Tendencia diaria') }}
+                            <flux:icon.arrow-trending-up class="size-5 text-emerald-500" /> {{ __('Tendencia diaria') }}
                         </h2>
                         <div class="flex flex-wrap gap-3 text-xs text-zinc-500 dark:text-zinc-400">
                             <span class="flex items-center gap-1"><span class="size-2 rounded-sm bg-emerald-500"></span>{{ __('Presentes') }}</span>
@@ -301,7 +301,7 @@ new #[Title('Panel')] class extends Component {
                             @php $faltas = $d['ausente'] + $d['sin_registro']; @endphp
                             <div class="flex-1 min-w-0 h-full flex flex-col justify-end group relative" wire:key="dia-{{ $d['fecha'] }}">
                                 @if ($d['programados'] > 0)
-                                    <div class="flex flex-col-reverse w-full rounded-t overflow-hidden {{ $d['es_hoy'] ? 'ring-1 ring-indigo-400' : '' }}" style="height: {{ $d['programados'] / $maxDia * 100 }}%">
+                                    <div class="flex flex-col-reverse w-full rounded-t overflow-hidden {{ $d['es_hoy'] ? 'ring-1 ring-emerald-400' : '' }}" style="height: {{ $d['programados'] / $maxDia * 100 }}%">
                                         <div class="bg-emerald-500" style="flex: {{ $d['presente'] }}"></div>
                                         <div class="bg-amber-500" style="flex: {{ $d['tarde'] }}"></div>
                                         <div class="bg-blue-500" style="flex: {{ $d['justificado'] }}"></div>
@@ -325,7 +325,7 @@ new #[Title('Panel')] class extends Component {
 
                 <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-5">
                     <h2 class="text-base font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                        <flux:icon.clock class="size-5 text-indigo-500" /> {{ __('¿A qué hora llegan?') }}
+                        <flux:icon.clock class="size-5 text-emerald-500" /> {{ __('¿A qué hora llegan?') }}
                     </h2>
                     <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ __('Llegada respecto a la hora oficial de entrada') }}</p>
                     @php $maxLl = max(1, collect($p['llegada'])->max('porcentaje')); @endphp
@@ -348,7 +348,7 @@ new #[Title('Panel')] class extends Component {
                 <div class="xl:col-span-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
                     <div class="p-5 pb-3">
                         <h2 class="text-base font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                            <flux:icon.user-group class="size-5 text-teal-500" /> {{ __('Desempeño por tipo de personal') }}
+                            <flux:icon.user-group class="size-5 text-emerald-500" /> {{ __('Desempeño por tipo de personal') }}
                         </h2>
                     </div>
                     <div class="overflow-x-auto">
@@ -390,7 +390,7 @@ new #[Title('Panel')] class extends Component {
 
                 <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-5">
                     <h2 class="text-base font-semibold text-zinc-900 dark:text-white flex items-center gap-2">
-                        <flux:icon.calendar-days class="size-5 text-indigo-500" /> {{ __('Tardanzas por día de la semana') }}
+                        <flux:icon.calendar-days class="size-5 text-emerald-500" /> {{ __('Tardanzas por día de la semana') }}
                     </h2>
                     <p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">{{ __('% de asistencias que llegaron tarde') }}</p>
                     @php $maxSem = max(1, collect($p['semana'])->max(fn ($d) => $d['tasa_tardanza'] ?? 0)); @endphp
@@ -445,7 +445,7 @@ new #[Title('Panel')] class extends Component {
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             <div class="lg:col-span-2 rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-5">
                 <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
-                    <flux:icon.finger-print class="size-5 text-indigo-500" /> {{ __('Últimas marcaciones de hoy') }}
+                    <flux:icon.finger-print class="size-5 text-emerald-500" /> {{ __('Últimas marcaciones de hoy') }}
                 </h2>
                 @forelse ($this->ultimosRegistros as $registro)
                     <div wire:key="reg-{{ $registro->id }}" class="flex items-center justify-between gap-3 py-2.5 border-b border-zinc-100 dark:border-zinc-800 last:border-0">
@@ -471,14 +471,14 @@ new #[Title('Panel')] class extends Component {
 
             <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-5">
                 <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
-                    <flux:icon.bolt class="size-5 text-teal-500" /> {{ __('Accesos rápidos') }}
+                    <flux:icon.bolt class="size-5 text-emerald-500" /> {{ __('Accesos rápidos') }}
                 </h2>
                 <div class="flex flex-col gap-1">
                     @foreach ([
-                        ['permiso' => 'personal.ver', 'ruta' => 'personal.index', 'ic' => 'user-group', 'col' => 'text-teal-500', 't' => __('Gestionar personal')],
-                        ['permiso' => 'asistencia.ver', 'ruta' => 'asistencia-personal.index', 'ic' => 'finger-print', 'col' => 'text-indigo-500', 't' => __('Ver asistencia de hoy')],
-                        ['permiso' => 'asistencia.gestionar', 'ruta' => 'asistencia-personal.importar', 'ic' => 'arrow-up-tray', 'col' => 'text-indigo-500', 't' => __('Cargar reporte del biométrico')],
-                        ['permiso' => 'reportes.ver', 'ruta' => 'asistencia-personal.reporte', 'ic' => 'document-chart-bar', 'col' => 'text-indigo-500', 't' => __('Generar reporte')],
+                        ['permiso' => 'personal.ver', 'ruta' => 'personal.index', 'ic' => 'user-group', 'col' => 'text-emerald-500', 't' => __('Gestionar personal')],
+                        ['permiso' => 'asistencia.ver', 'ruta' => 'asistencia-personal.index', 'ic' => 'finger-print', 'col' => 'text-emerald-500', 't' => __('Ver asistencia de hoy')],
+                        ['permiso' => 'asistencia.gestionar', 'ruta' => 'asistencia-personal.importar', 'ic' => 'arrow-up-tray', 'col' => 'text-emerald-500', 't' => __('Cargar reporte del biométrico')],
+                        ['permiso' => 'reportes.ver', 'ruta' => 'asistencia-personal.reporte', 'ic' => 'document-chart-bar', 'col' => 'text-emerald-500', 't' => __('Generar reporte')],
                         ['permiso' => 'usuarios.gestionar', 'ruta' => 'usuarios.index', 'ic' => 'users', 'col' => 'text-zinc-500', 't' => __('Usuarios')],
                         ['permiso' => 'roles.gestionar', 'ruta' => 'roles.index', 'ic' => 'key', 'col' => 'text-zinc-500', 't' => __('Roles y permisos')],
                     ] as $a)
@@ -494,11 +494,11 @@ new #[Title('Panel')] class extends Component {
     @else
         <div class="rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm p-6">
             <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
-                <flux:icon.bolt class="size-5 text-teal-500" /> {{ __('Accesos rápidos') }}
+                <flux:icon.bolt class="size-5 text-emerald-500" /> {{ __('Accesos rápidos') }}
             </h2>
             <div class="flex flex-col gap-1">
                 @can('personal.ver')
-                    <a href="{{ route('personal.index') }}" wire:navigate class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm font-medium text-zinc-700 dark:text-zinc-300"><flux:icon.user-group class="size-4 text-teal-500" /> {{ __('Gestionar personal') }}</a>
+                    <a href="{{ route('personal.index') }}" wire:navigate class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm font-medium text-zinc-700 dark:text-zinc-300"><flux:icon.user-group class="size-4 text-emerald-500" /> {{ __('Gestionar personal') }}</a>
                 @endcan
                 @can('usuarios.gestionar')
                     <a href="{{ route('usuarios.index') }}" wire:navigate class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800 text-sm font-medium text-zinc-700 dark:text-zinc-300"><flux:icon.users class="size-4 text-zinc-500" /> {{ __('Usuarios') }}</a>

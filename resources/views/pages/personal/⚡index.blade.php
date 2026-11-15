@@ -85,23 +85,23 @@ new #[Title('Personal')] class extends Component {
 <div>
     {{-- Encabezado --}}
     <div class="relative overflow-hidden rounded-2xl
-            bg-gradient-to-r from-zinc-100 via-zinc-50 to-teal-100
-            dark:from-zinc-900 dark:via-zinc-800 dark:to-teal-950
+            bg-gradient-to-r from-zinc-100 via-zinc-50 to-emerald-100
+            dark:from-zinc-900 dark:via-zinc-800 dark:to-emerald-950
             p-6 mb-6 shadow-xl border border-zinc-200 dark:border-transparent">
 
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-teal-400/20 dark:bg-teal-500/10 blur-2xl"></div>
-            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-teal-400/20 dark:bg-teal-500/10 blur-2xl"></div>
+            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
+            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
         </div>
 
         <div class="relative z-10 flex items-center justify-between flex-wrap gap-4">
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-center w-12 h-12 rounded-xl
-                        bg-teal-100 dark:bg-teal-500/20
+                        bg-emerald-100 dark:bg-emerald-500/20
                         backdrop-blur-md
-                        border border-teal-300 dark:border-teal-400/30
+                        border border-emerald-300 dark:border-emerald-400/30
                         shadow-lg">
-                    <flux:icon.user-group class="w-6 h-6 text-teal-600 dark:text-teal-300" />
+                    <flux:icon.user-group class="w-6 h-6 text-emerald-600 dark:text-emerald-300" />
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ __('Personal de la IE') }}</h1>
@@ -124,7 +124,7 @@ new #[Title('Personal')] class extends Component {
                         {{ __('Importar (Excel/CSV)') }}
                     </a>
                     <a href="{{ route('personal.create') }}" wire:navigate
-                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
                         <flux:icon.plus class="w-4 h-4" />
                         {{ __('Nuevo personal') }}
                     </a>
@@ -142,14 +142,14 @@ new #[Title('Personal')] class extends Component {
                     <flux:icon.magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                     <input wire:model.live.debounce.300ms="search" type="text"
                            placeholder="{{ __('Nombre, apellido o DNI...') }}"
-                           class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition">
+                           class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition">
                 </div>
             </div>
 
             <div>
                 <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Tipo de personal') }}</label>
                 <select wire:model.live="tipo"
-                        class="w-full px-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 transition">
+                        class="w-full px-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     <option value="">{{ __('Todos') }}</option>
                     @foreach ($tipos as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
@@ -161,7 +161,7 @@ new #[Title('Personal')] class extends Component {
                 <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Estado') }}</label>
                 <div class="flex gap-2">
                     <select wire:model.live="activo"
-                            class="w-full px-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 transition">
+                            class="w-full px-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                         <option value="">{{ __('Todos') }}</option>
                         <option value="1">{{ __('Activo') }}</option>
                         <option value="0">{{ __('Inactivo') }}</option>
@@ -247,7 +247,7 @@ new #[Title('Personal')] class extends Component {
                                     <div class="flex items-center justify-center gap-1">
                                         @can('personal.gestionar')
                                         <a href="{{ route('personal.edit', $p->id) }}#horarios" title="{{ __('Configurar horario') }}"
-                                           class="p-1.5 rounded-lg text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition">
+                                           class="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition">
                                             <flux:icon.clock class="w-4 h-4" />
                                         </a>
                                         <a href="{{ route('personal.edit', $p->id) }}" wire:navigate title="{{ __('Editar') }}"

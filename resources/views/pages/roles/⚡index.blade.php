@@ -111,7 +111,7 @@ new #[Title('Roles y Permisos')] class extends Component {
             <p class="text-sm text-zinc-500 dark:text-zinc-300 mt-0.5">{{ __('Define qué puede hacer cada rol dentro del sistema.') }}</p>
         </div>
         <button wire:click="abrirNuevoRol" type="button"
-                class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
+                class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
             <flux:icon.plus class="w-4 h-4" />
             {{ __('Nuevo rol') }}
         </button>
@@ -135,7 +135,7 @@ new #[Title('Roles y Permisos')] class extends Component {
                             <td class="px-4 py-3">
                                 <div class="font-semibold text-zinc-900 dark:text-white">{{ $role->name }}</div>
                                 @if ($role->name === config('permission.super_admin_role', 'Super Admin'))
-                                    <div class="text-xs text-teal-600 dark:text-teal-400">{{ __('Acceso total al sistema') }}</div>
+                                    <div class="text-xs text-emerald-600 dark:text-emerald-400">{{ __('Acceso total al sistema') }}</div>
                                 @endif
                             </td>
                             <td class="px-4 py-3 text-center">
@@ -167,13 +167,13 @@ new #[Title('Roles y Permisos')] class extends Component {
         {{-- Permisos dinámicos --}}
         <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
             <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
-                <flux:icon.key class="w-5 h-5 text-teal-500" />
+                <flux:icon.key class="w-5 h-5 text-emerald-500" />
                 {{ __('Permisos') }}
             </h2>
 
             <form wire:submit="agregarPermiso" class="flex gap-2 mb-4">
                 <input wire:model="nuevoPermiso" type="text" placeholder="{{ __('ej: reportes.exportar') }}"
-                       class="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                       class="w-full px-3 py-2 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                 <button type="submit" class="px-3 py-2 bg-zinc-800 text-white rounded-lg text-sm hover:bg-zinc-700 transition flex-shrink-0">
                     <flux:icon.plus class="w-4 h-4" />
                 </button>

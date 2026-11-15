@@ -81,14 +81,14 @@ new #[Title('Configuración')] class extends Component {
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
             <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
-                <flux:icon.identification class="w-5 h-5 text-teal-500" />
+                <flux:icon.identification class="w-5 h-5 text-emerald-500" />
                 {{ __('Nombre del sistema') }}
             </h2>
 
             <form wire:submit="guardarNombre" class="flex flex-col gap-4">
                 <flux:input wire:model="app_name" :label="__('Nombre')" />
                 <div>
-                    <button type="submit" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold rounded-lg shadow transition">
+                    <button type="submit" class="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg shadow transition">
                         {{ __('Guardar') }}
                     </button>
                 </div>
@@ -97,7 +97,7 @@ new #[Title('Configuración')] class extends Component {
 
         <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
             <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
-                <flux:icon.photo class="w-5 h-5 text-teal-500" />
+                <flux:icon.photo class="w-5 h-5 text-emerald-500" />
                 {{ __('Logo') }}
             </h2>
 
@@ -117,7 +117,7 @@ new #[Title('Configuración')] class extends Component {
                            class="block w-full text-sm text-zinc-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-700 dark:file:text-zinc-300 hover:file:bg-zinc-200 dark:hover:file:bg-zinc-700">
                     @error('logo') <p class="text-xs text-red-500">{{ $message }}</p> @enderror
 
-                    <p wire:loading wire:target="logo" class="text-xs text-teal-600">{{ __('Subiendo logo...') }}</p>
+                    <p wire:loading wire:target="logo" class="text-xs text-emerald-600">{{ __('Subiendo logo...') }}</p>
 
                     <div class="flex gap-2">
                         @if (SiteSetting::current()->logo_path)

@@ -3,7 +3,7 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
+    <body class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-100 antialiased dark:from-emerald-950 dark:via-neutral-950 dark:to-neutral-900">
         <div class="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
             <div class="flex w-full max-w-sm flex-col gap-2">
                 @php($settings = \App\Models\SiteSetting::current())

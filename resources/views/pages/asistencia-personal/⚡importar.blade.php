@@ -68,17 +68,17 @@ new #[Title('Cargar reporte del biométrico')] class extends Component {
 <div>
     {{-- Encabezado --}}
     <div class="relative overflow-hidden rounded-2xl
-            bg-gradient-to-r from-zinc-100 via-zinc-50 to-indigo-100
-            dark:from-zinc-900 dark:via-zinc-800 dark:to-indigo-950
+            bg-gradient-to-r from-zinc-100 via-zinc-50 to-emerald-100
+            dark:from-zinc-900 dark:via-zinc-800 dark:to-emerald-950
             p-6 mb-6 shadow-xl border border-zinc-200 dark:border-transparent">
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-400/20 dark:bg-indigo-500/10 blur-2xl"></div>
-            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-indigo-400/20 dark:bg-indigo-500/10 blur-2xl"></div>
+            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
+            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
         </div>
         <div class="relative z-10 flex items-center justify-between flex-wrap gap-4">
             <div class="flex items-center gap-4">
-                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-indigo-100 dark:bg-indigo-500/20 border border-indigo-300 dark:border-indigo-400/30 shadow-lg">
-                    <flux:icon.finger-print class="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
+                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/30 shadow-lg">
+                    <flux:icon.finger-print class="w-6 h-6 text-emerald-600 dark:text-emerald-300" />
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ __('Cargar reporte del biométrico') }}</h1>
@@ -147,7 +147,7 @@ new #[Title('Cargar reporte del biométrico')] class extends Component {
                     </div>
                 @endif
 
-                <a href="{{ route('asistencia-personal.index') }}" wire:navigate class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-indigo-700 dark:text-indigo-300 hover:underline">
+                <a href="{{ route('asistencia-personal.index') }}" wire:navigate class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:underline">
                     {{ __('Ver asistencia') }} <flux:icon.arrow-right class="w-4 h-4" />
                 </a>
             </div>
@@ -166,9 +166,9 @@ new #[Title('Cargar reporte del biométrico')] class extends Component {
                     ImportadorBiometrico::EXISTENTES_OMITIR => ['Omitir días ya registrados', 'No toca ninguna asistencia que ya exista (lo más seguro).'],
                     ImportadorBiometrico::EXISTENTES_COMPLETAR => ['Completar registros parciales', 'Si la API alcanzó a guardar solo la entrada, agrega las marcas que faltan sin cambiar las existentes.'],
                 ] as $valor => [$titulo, $descripcion])
-                    <label class="cursor-pointer rounded-lg border p-3 transition {{ $existentes === $valor ? 'border-indigo-500 bg-indigo-50 dark:bg-indigo-950/30 ring-1 ring-indigo-500' : 'border-zinc-200 dark:border-zinc-700 hover:border-indigo-300' }}">
+                    <label class="cursor-pointer rounded-lg border p-3 transition {{ $existentes === $valor ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 ring-1 ring-emerald-500' : 'border-zinc-200 dark:border-zinc-700 hover:border-emerald-300' }}">
                         <div class="flex items-center gap-2">
-                            <input type="radio" wire:model.live="existentes" value="{{ $valor }}" class="text-indigo-600 focus:ring-indigo-500">
+                            <input type="radio" wire:model.live="existentes" value="{{ $valor }}" class="text-emerald-600 focus:ring-emerald-500">
                             <span class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{{ __($titulo) }}</span>
                         </div>
                         <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{{ __($descripcion) }}</p>
@@ -180,7 +180,7 @@ new #[Title('Cargar reporte del biométrico')] class extends Component {
             <input type="file" wire:model="archivo" accept=".xls,.xlsx"
                    class="block w-full text-sm text-zinc-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-700 dark:file:text-zinc-300 hover:file:bg-zinc-200 dark:hover:file:bg-zinc-700">
             @error('archivo') <p class="mt-2 text-xs text-red-500">{{ $message }}</p> @enderror
-            <p wire:loading wire:target="archivo" class="mt-2 text-xs text-indigo-600">{{ __('Leyendo archivo...') }}</p>
+            <p wire:loading wire:target="archivo" class="mt-2 text-xs text-emerald-600">{{ __('Leyendo archivo...') }}</p>
         </div>
 
         {{-- Vista previa --}}
@@ -222,7 +222,7 @@ new #[Title('Cargar reporte del biométrico')] class extends Component {
                         </button>
                         <button type="button" wire:click="importar" wire:loading.attr="disabled" wire:target="importar"
                                 @disabled($vista['encontradas'] === 0)
-                                class="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                                class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
                             <flux:icon.loading wire:loading wire:target="importar" variant="mini" class="w-4 h-4" />
                             <span wire:loading.remove wire:target="importar">{{ __('Importar asistencias') }}</span>
                             <span wire:loading wire:target="importar">{{ __('Importando...') }}</span>

@@ -329,7 +329,7 @@ new #[Title('Personal')] class extends Component {
             {{-- Datos personales --}}
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
                 <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
-                    <flux:icon.user class="w-5 h-5 text-teal-500" />
+                    <flux:icon.user class="w-5 h-5 text-emerald-500" />
                     {{ __('Datos personales') }}
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -337,7 +337,7 @@ new #[Title('Personal')] class extends Component {
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('DNI') }} <span class="text-red-500">*</span></label>
                         <div class="flex gap-2">
                             <input wire:model="dni" type="text" maxlength="8" placeholder="00000000"
-                                   class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                                   class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                             <button type="button" wire:click="consultarDni" wire:loading.attr="disabled" wire:target="consultarDni"
                                     class="px-3 py-2 bg-zinc-800 text-white rounded-lg text-xs font-medium hover:bg-zinc-700 transition flex items-center justify-center whitespace-nowrap">
                                 <span wire:loading.remove wire:target="consultarDni">{{ __('Buscar') }}</span>
@@ -350,27 +350,27 @@ new #[Title('Personal')] class extends Component {
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Nombres') }} <span class="text-red-500">*</span></label>
                         <input wire:model="nombres" type="text"
-                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                         @error('nombres') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Apellido paterno') }} <span class="text-red-500">*</span></label>
                         <input wire:model="apellido_paterno" type="text"
-                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                         @error('apellido_paterno') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Apellido materno') }}</label>
                         <input wire:model="apellido_materno" type="text"
-                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Teléfono') }}</label>
                         <input wire:model="telefono" type="text"
-                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     </div>
                 </div>
             </div>
@@ -378,14 +378,14 @@ new #[Title('Personal')] class extends Component {
             {{-- Datos laborales --}}
             <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
                 <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-5 flex items-center gap-2">
-                    <flux:icon.briefcase class="w-5 h-5 text-teal-500" />
+                    <flux:icon.briefcase class="w-5 h-5 text-emerald-500" />
                     {{ __('Datos laborales') }}
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Tipo de personal') }} <span class="text-red-500">*</span></label>
                         <select wire:model="tipo_personal"
-                                class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                                class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                             @foreach ($tipos as $value => $label)
                                 <option value="{{ $value }}">{{ $label }}</option>
                             @endforeach
@@ -396,13 +396,13 @@ new #[Title('Personal')] class extends Component {
                     <div class="md:col-span-2">
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Cargo específico') }}</label>
                         <input wire:model="cargo" type="text" placeholder="{{ __('Ej: Profesor de Matemática, Secretaria, etc.') }}"
-                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300 mb-1">{{ __('Fecha de ingreso') }}</label>
                         <input wire:model="fecha_ingreso" type="date"
-                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-teal-500 transition">
+                               class="w-full px-3 py-2.5 rounded-lg border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     </div>
                 </div>
             </div>
@@ -411,7 +411,7 @@ new #[Title('Personal')] class extends Component {
             <div id="horarios" class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
                 <div class="flex items-center justify-between gap-3 mb-1">
                     <div class="flex items-center gap-2">
-                        <flux:icon.clock class="size-5 text-teal-500" />
+                        <flux:icon.clock class="size-5 text-emerald-500" />
                         <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ __('Horario de trabajo') }}</h2>
                     </div>
                     <span class="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300">
@@ -436,8 +436,8 @@ new #[Title('Personal')] class extends Component {
                                     aria-pressed="{{ $horarios[$dia]['activo'] ? 'true' : 'false' }}"
                                     @class([
                                         'flex flex-col items-center justify-center rounded-lg border py-2.5 text-xs sm:text-sm font-semibold transition cursor-pointer',
-                                        'bg-teal-600 border-teal-600 text-white shadow-sm' => $horarios[$dia]['activo'],
-                                        'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:border-teal-400' => ! $horarios[$dia]['activo'],
+                                        'bg-emerald-600 border-emerald-600 text-white shadow-sm' => $horarios[$dia]['activo'],
+                                        'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:border-emerald-400' => ! $horarios[$dia]['activo'],
                                     ])>
                                 <span>{{ $corto }}</span>
                                 @if ($horarios[$dia]['activo'])
@@ -449,7 +449,7 @@ new #[Title('Personal')] class extends Component {
                 </div>
 
                 {{-- Paso 2: horario general --}}
-                <div class="rounded-lg border border-teal-200 dark:border-teal-900/60 bg-teal-50/60 dark:bg-teal-950/20 p-4 mb-5">
+                <div class="rounded-lg border border-emerald-200 dark:border-emerald-900/60 bg-emerald-50/60 dark:bg-emerald-950/20 p-4 mb-5">
                     <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
                         <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('2. Horario general (para los días marcados)') }}</span>
                         <flux:checkbox wire:model.live="general.doble" label="{{ __('Doble jornada') }}" />
@@ -464,7 +464,7 @@ new #[Title('Personal')] class extends Component {
                         <flux:input wire:model="general.tolerancia_minutos" type="number" min="0" max="120" label="{{ __('Tolerancia (min)') }}" />
                     </div>
                     <button type="button" wire:click="aplicarGeneral"
-                            class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold shadow transition">
+                            class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow transition">
                         <flux:icon.arrow-down-circle class="w-4 h-4" />
                         {{ __('Aplicar a los días marcados') }}
                     </button>
@@ -517,7 +517,7 @@ new #[Title('Personal')] class extends Component {
                     {{ __('Cancelar') }}
                 </a>
                 <button type="submit" wire:loading.attr="disabled" wire:target="save"
-                        class="px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-70 flex items-center gap-2">
+                        class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-70 flex items-center gap-2">
                     <flux:icon.loading wire:loading wire:target="save" variant="mini" class="w-4 h-4" />
                     <span wire:loading.remove wire:target="save">{{ $isEditMode ? __('Actualizar personal') : __('Guardar personal') }}</span>
                     <span wire:loading wire:target="save">{{ __('Guardando...') }}</span>

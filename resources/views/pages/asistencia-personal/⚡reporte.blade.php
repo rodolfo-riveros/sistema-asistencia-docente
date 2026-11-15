@@ -196,23 +196,23 @@ new #[Title('Reporte de asistencia')] class extends Component {
     <div>
         {{-- Encabezado --}}
         <div class="relative overflow-hidden rounded-2xl
-                bg-gradient-to-r from-zinc-100 via-zinc-50 to-indigo-100
-                dark:from-zinc-900 dark:via-zinc-800 dark:to-indigo-950
+                bg-gradient-to-r from-zinc-100 via-zinc-50 to-emerald-100
+                dark:from-zinc-900 dark:via-zinc-800 dark:to-emerald-950
                 p-6 mb-6 shadow-xl border border-zinc-200 dark:border-transparent">
 
             <div class="absolute inset-0 overflow-hidden">
-                <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-400/20 dark:bg-indigo-500/10 blur-2xl"></div>
-                <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-indigo-400/20 dark:bg-indigo-500/10 blur-2xl"></div>
+                <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
+                <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
             </div>
 
             <div class="relative z-10 flex items-center justify-between flex-wrap gap-4">
                 <div class="flex items-center gap-4">
                     <div class="flex items-center justify-center w-12 h-12 rounded-xl
-                            bg-indigo-100 dark:bg-indigo-500/20
+                            bg-emerald-100 dark:bg-emerald-500/20
                             backdrop-blur-md
-                            border border-indigo-300 dark:border-indigo-400/30
+                            border border-emerald-300 dark:border-emerald-400/30
                             shadow-lg">
-                        <flux:icon.document-chart-bar class="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
+                        <flux:icon.document-chart-bar class="w-6 h-6 text-emerald-600 dark:text-emerald-300" />
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ __('Reporte de asistencia') }}</h1>
@@ -234,17 +234,17 @@ new #[Title('Reporte de asistencia')] class extends Component {
                 <div>
                     <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Desde') }}</label>
                     <input wire:model="fecha_inicio" type="date"
-                           class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                           class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Hasta') }}</label>
                     <input wire:model="fecha_fin" type="date"
-                           class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                           class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Tipo de personal') }}</label>
                     <select wire:model="tipo_personal"
-                            class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                            class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                         <option value="">{{ __('Todos') }}</option>
                         @foreach ($tipos as $value => $label)
                             <option value="{{ $value }}">{{ $label }}</option>
@@ -253,7 +253,7 @@ new #[Title('Reporte de asistencia')] class extends Component {
                 </div>
                 <div class="flex gap-2">
                     <button wire:click="generarReporte" type="button" wire:loading.attr="disabled" wire:target="generarReporte"
-                            class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-70">
+                            class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-70">
                         <flux:icon.loading wire:loading wire:target="generarReporte" variant="mini" class="w-4 h-4" />
                         <span wire:loading.remove wire:target="generarReporte">{{ __('Generar') }}</span>
                         <span wire:loading wire:target="generarReporte">{{ __('Generando...') }}</span>

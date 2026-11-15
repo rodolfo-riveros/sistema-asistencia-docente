@@ -3,11 +3,11 @@
     <head>
         @include('partials.head')
     </head>
-    <body class="min-h-screen bg-white antialiased dark:bg-linear-to-b dark:from-neutral-950 dark:to-neutral-900">
+    <body class="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-green-100 antialiased dark:from-emerald-950 dark:via-neutral-950 dark:to-neutral-900">
         <div class="relative grid h-dvh flex-col items-center justify-center px-8 sm:px-0 lg:max-w-none lg:grid-cols-2 lg:px-0">
             @php($settings = \App\Models\SiteSetting::current())
             <div class="bg-muted relative hidden h-full flex-col p-10 text-white lg:flex dark:border-e dark:border-neutral-800">
-                <div class="absolute inset-0 bg-neutral-900"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-emerald-700 via-emerald-600 to-green-500"></div>
                 <a href="{{ route('home') }}" class="relative z-20 flex items-center text-lg font-medium" wire:navigate>
                     <span class="flex h-10 w-10 items-center justify-center rounded-md overflow-hidden">
                         @if ($settings->logo_url)

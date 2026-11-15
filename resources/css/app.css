@@ -93,3 +93,12 @@ select:focus[data-flux-control] {
 /* \[:where(&)\]:size-4 {
     @apply size-4;
 } */
+
+/* Identidad visual: botones primarios con degradado verde. */
+[class*="bg-[var(--color-accent)]"] {
+    background-image: linear-gradient(135deg, var(--color-emerald-600), var(--color-green-500));
+}
+
+[class*="bg-[var(--color-accent)]"]:hover:not(:disabled) {
+    filter: brightness(1.06);
+}

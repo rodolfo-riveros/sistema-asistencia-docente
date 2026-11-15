@@ -206,23 +206,23 @@ new #[Title('Asistencia de personal')] class extends Component {
 <div>
     {{-- Encabezado --}}
     <div class="relative overflow-hidden rounded-2xl
-            bg-gradient-to-r from-zinc-100 via-zinc-50 to-indigo-100
-            dark:from-zinc-900 dark:via-zinc-800 dark:to-indigo-950
+            bg-gradient-to-r from-zinc-100 via-zinc-50 to-emerald-100
+            dark:from-zinc-900 dark:via-zinc-800 dark:to-emerald-950
             p-6 mb-6 shadow-xl border border-zinc-200 dark:border-transparent">
 
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-indigo-400/20 dark:bg-indigo-500/10 blur-2xl"></div>
-            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-indigo-400/20 dark:bg-indigo-500/10 blur-2xl"></div>
+            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
+            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
         </div>
 
         <div class="relative z-10 flex items-center justify-between flex-wrap gap-4">
             <div class="flex items-center gap-4">
                 <div class="flex items-center justify-center w-12 h-12 rounded-xl
-                        bg-indigo-100 dark:bg-indigo-500/20
+                        bg-emerald-100 dark:bg-emerald-500/20
                         backdrop-blur-md
-                        border border-indigo-300 dark:border-indigo-400/30
+                        border border-emerald-300 dark:border-emerald-400/30
                         shadow-lg">
-                    <flux:icon.clipboard-document-check class="w-6 h-6 text-indigo-600 dark:text-indigo-300" />
+                    <flux:icon.clipboard-document-check class="w-6 h-6 text-emerald-600 dark:text-emerald-300" />
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ __('Asistencia del Personal') }}</h1>
@@ -246,7 +246,7 @@ new #[Title('Asistencia de personal')] class extends Component {
                     </a>
                 @endcan
                 <a href="{{ route('asistencia-personal.reporte') }}" wire:navigate
-                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
+                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
                     <flux:icon.document-chart-bar class="w-4 h-4" />
                     {{ __('Generar reporte') }}
                 </a>
@@ -272,8 +272,8 @@ new #[Title('Asistencia de personal')] class extends Component {
                 @if ($stat['clickable']) wire:click="filtrarPorEstado('{{ $key }}')" @endif
                 @unless ($stat['clickable']) disabled @endunless
                 class="text-left bg-white dark:bg-zinc-900 rounded-xl border shadow-sm p-4 flex items-center gap-3 transition
-                    {{ $estado === $key ? 'border-indigo-400 ring-1 ring-indigo-400' : 'border-zinc-200 dark:border-zinc-800' }}
-                    {{ $stat['clickable'] ? 'cursor-pointer hover:border-indigo-300' : 'cursor-default' }}"
+                    {{ $estado === $key ? 'border-emerald-400 ring-1 ring-emerald-400' : 'border-zinc-200 dark:border-zinc-800' }}
+                    {{ $stat['clickable'] ? 'cursor-pointer hover:border-emerald-300' : 'cursor-default' }}"
             >
                 <div @class([
                     'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
@@ -311,7 +311,7 @@ new #[Title('Asistencia de personal')] class extends Component {
                         <flux:icon.chevron-left class="w-4 h-4" />
                     </button>
                     <input wire:model.live="fecha" type="date"
-                           class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                           class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     <button type="button" wire:click="irADia(1)" title="{{ __('Día siguiente') }}"
                             class="px-2 rounded-lg border border-zinc-300 dark:border-zinc-700 text-zinc-500 hover:bg-zinc-50 dark:hover:bg-zinc-800 transition">
                         <flux:icon.chevron-right class="w-4 h-4" />
@@ -322,7 +322,7 @@ new #[Title('Asistencia de personal')] class extends Component {
             <div>
                 <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Tipo') }}</label>
                 <select wire:model.live="tipo"
-                        class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                        class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     <option value="">{{ __('Todos') }}</option>
                     @foreach ($tipos as $value => $label)
                         <option value="{{ $value }}">{{ $label }}</option>
@@ -333,7 +333,7 @@ new #[Title('Asistencia de personal')] class extends Component {
             <div>
                 <label class="block text-xs font-medium text-zinc-500 dark:text-zinc-400 mb-1">{{ __('Estado') }}</label>
                 <select wire:model.live="estado"
-                        class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                        class="w-full px-3 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                     <option value="">{{ __('Todos') }}</option>
                     <option value="presente">{{ __('Presente') }}</option>
                     <option value="tarde">{{ __('Tardanza') }}</option>
@@ -349,7 +349,7 @@ new #[Title('Asistencia de personal')] class extends Component {
                     <flux:icon.magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
                     <input wire:model.live.debounce.300ms="search" type="text"
                            placeholder="{{ __('Nombre o DNI...') }}"
-                           class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 transition">
+                           class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
                 </div>
             </div>
 
@@ -480,7 +480,7 @@ new #[Title('Asistencia de personal')] class extends Component {
                                         @can('asistencia.gestionar')
                                         <button wire:click="openModal({{ $p->id }}, '{{ addslashes($p->nombre_completo) }}', {{ $asis?->id ?? 'null' }})"
                                                 title="{{ $asis ? __('Editar asistencia') : __('Registrar asistencia manual') }}"
-                                                class="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition">
+                                                class="p-1.5 rounded-lg text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition">
                                             @if ($asis)
                                                 <flux:icon.pencil-square class="w-4 h-4" />
                                             @else
@@ -522,13 +522,13 @@ new #[Title('Asistencia de personal')] class extends Component {
     <flux:modal wire:model="showModal" class="w-full max-w-[450px]" wire:key="modal-registro">
         <div class="space-y-6">
             <flux:heading size="lg" class="flex items-center gap-2">
-                <flux:icon.clipboard-document-check class="w-5 h-5 text-indigo-500" />
+                <flux:icon.clipboard-document-check class="w-5 h-5 text-emerald-500" />
                 {{ $editId ? __('Editar asistencia') : __('Registrar asistencia manual') }}
             </flux:heading>
 
             <div class="flex items-center gap-3 p-3 bg-zinc-50 dark:bg-zinc-800 rounded-lg border border-zinc-200 dark:border-zinc-700">
-                <div class="w-9 h-9 rounded-full bg-indigo-100 dark:bg-indigo-900/40 flex items-center justify-center flex-shrink-0">
-                    <flux:icon.user class="w-4 h-4 text-indigo-600 dark:text-indigo-300" />
+                <div class="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-900/40 flex items-center justify-center flex-shrink-0">
+                    <flux:icon.user class="w-4 h-4 text-emerald-600 dark:text-emerald-300" />
                 </div>
                 <div>
                     <div class="font-semibold text-sm text-zinc-900 dark:text-white">{{ $modalNombre }}</div>

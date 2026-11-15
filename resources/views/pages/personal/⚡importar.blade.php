@@ -124,17 +124,17 @@ new #[Title('Importar personal')] class extends Component {
 <div>
     {{-- Encabezado --}}
     <div class="relative overflow-hidden rounded-2xl
-            bg-gradient-to-r from-zinc-100 via-zinc-50 to-teal-100
-            dark:from-zinc-900 dark:via-zinc-800 dark:to-teal-950
+            bg-gradient-to-r from-zinc-100 via-zinc-50 to-emerald-100
+            dark:from-zinc-900 dark:via-zinc-800 dark:to-emerald-950
             p-6 mb-6 shadow-xl border border-zinc-200 dark:border-transparent">
         <div class="absolute inset-0 overflow-hidden">
-            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-teal-400/20 dark:bg-teal-500/10 blur-2xl"></div>
-            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-teal-400/20 dark:bg-teal-500/10 blur-2xl"></div>
+            <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
+            <div class="absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-emerald-400/20 dark:bg-emerald-500/10 blur-2xl"></div>
         </div>
         <div class="relative z-10 flex items-center justify-between flex-wrap gap-4">
             <div class="flex items-center gap-4">
-                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-teal-100 dark:bg-teal-500/20 border border-teal-300 dark:border-teal-400/30 shadow-lg">
-                    <flux:icon.arrow-up-tray class="w-6 h-6 text-teal-600 dark:text-teal-300" />
+                <div class="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald-100 dark:bg-emerald-500/20 border border-emerald-300 dark:border-emerald-400/30 shadow-lg">
+                    <flux:icon.arrow-up-tray class="w-6 h-6 text-emerald-600 dark:text-emerald-300" />
                 </div>
                 <div>
                     <h1 class="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{{ __('Importar personal y horarios') }}</h1>
@@ -165,7 +165,7 @@ new #[Title('Importar personal')] class extends Component {
                     @foreach ([
                         ['Creados', $resultado['creados'], 'text-green-700 dark:text-green-300'],
                         ['Actualizados', $resultado['actualizados'], 'text-blue-700 dark:text-blue-300'],
-                        ['Días de horario', $resultado['dias_horario'], 'text-teal-700 dark:text-teal-300'],
+                        ['Días de horario', $resultado['dias_horario'], 'text-emerald-700 dark:text-emerald-300'],
                         ['Omitidos', $resultado['omitidos'], 'text-zinc-600 dark:text-zinc-300'],
                         ['Con errores', $resultado['con_errores'], 'text-red-700 dark:text-red-300'],
                     ] as [$etiqueta, $valor, $color])
@@ -175,7 +175,7 @@ new #[Title('Importar personal')] class extends Component {
                         </div>
                     @endforeach
                 </div>
-                <a href="{{ route('personal.index') }}" wire:navigate class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-teal-700 dark:text-teal-300 hover:underline">
+                <a href="{{ route('personal.index') }}" wire:navigate class="inline-flex items-center gap-1 mt-4 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:underline">
                     {{ __('Ver personal') }} <flux:icon.arrow-right class="w-4 h-4" />
                 </a>
             @endif
@@ -186,7 +186,7 @@ new #[Title('Importar personal')] class extends Component {
         {{-- Paso 1 --}}
         <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
             <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-3 flex items-center gap-2">
-                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white">1</span>
+                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">1</span>
                 {{ __('Prepara el archivo') }}
             </h2>
             <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
@@ -194,7 +194,7 @@ new #[Title('Importar personal')] class extends Component {
             </p>
             <div class="flex flex-col gap-2">
                 <a href="{{ route('personal.plantilla') }}"
-                   class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold shadow transition">
+                   class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold shadow transition">
                     <flux:icon.arrow-down-tray class="w-4 h-4" /> {{ __('Descargar plantilla') }}
                 </a>
                 <a href="{{ route('personal.exportar') }}"
@@ -213,7 +213,7 @@ new #[Title('Importar personal')] class extends Component {
         {{-- Paso 2 --}}
         <div class="lg:col-span-2 bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
             <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
-                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white">2</span>
+                <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">2</span>
                 {{ __('Elige qué importar y sube el archivo') }}
             </h2>
 
@@ -222,9 +222,9 @@ new #[Title('Importar personal')] class extends Component {
                     ImportadorPersonal::MODO_COMPLETO => ['Personal y horarios', 'Crea o actualiza personas y, si el archivo trae días, también sus horarios.'],
                     ImportadorPersonal::MODO_HORARIOS => ['Solo horarios', 'Solo actualiza los horarios de personal que ya existe (por DNI).'],
                 ] as $valor => [$titulo, $descripcion])
-                    <label class="cursor-pointer rounded-lg border p-3 transition {{ $modo === $valor ? 'border-teal-500 bg-teal-50 dark:bg-teal-950/30 ring-1 ring-teal-500' : 'border-zinc-200 dark:border-zinc-700 hover:border-teal-300' }}">
+                    <label class="cursor-pointer rounded-lg border p-3 transition {{ $modo === $valor ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/30 ring-1 ring-emerald-500' : 'border-zinc-200 dark:border-zinc-700 hover:border-emerald-300' }}">
                         <div class="flex items-center gap-2">
-                            <input type="radio" wire:model.live="modo" value="{{ $valor }}" class="text-teal-600 focus:ring-teal-500">
+                            <input type="radio" wire:model.live="modo" value="{{ $valor }}" class="text-emerald-600 focus:ring-emerald-500">
                             <span class="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{{ __($titulo) }}</span>
                         </div>
                         <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">{{ __($descripcion) }}</p>
@@ -235,12 +235,12 @@ new #[Title('Importar personal')] class extends Component {
             <div class="flex flex-col gap-2 mb-4 text-sm text-zinc-700 dark:text-zinc-300">
                 @if ($modo === \App\Services\ImportadorPersonal::MODO_COMPLETO)
                     <label class="flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" wire:model.live="actualizar" class="rounded text-teal-600 focus:ring-teal-500">
+                        <input type="checkbox" wire:model.live="actualizar" class="rounded text-emerald-600 focus:ring-emerald-500">
                         {{ __('Actualizar los datos de personal que ya existe (mismo DNI)') }}
                     </label>
                 @endif
                 <label class="flex items-center gap-2 cursor-pointer">
-                    <input type="checkbox" wire:model="reemplazarHorarios" class="rounded text-teal-600 focus:ring-teal-500">
+                    <input type="checkbox" wire:model="reemplazarHorarios" class="rounded text-emerald-600 focus:ring-emerald-500">
                     {{ __('Reemplazar horarios existentes (los días en blanco quedan como libres)') }}
                 </label>
             </div>
@@ -248,7 +248,7 @@ new #[Title('Importar personal')] class extends Component {
             <input type="file" wire:model="archivo" accept=".csv,.txt,text/csv"
                    class="block w-full text-sm text-zinc-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-700 dark:file:text-zinc-300 hover:file:bg-zinc-200 dark:hover:file:bg-zinc-700">
             @error('archivo') <p class="mt-2 text-xs text-red-500">{{ $message }}</p> @enderror
-            <p wire:loading wire:target="archivo" class="mt-2 text-xs text-teal-600">{{ __('Leyendo archivo...') }}</p>
+            <p wire:loading wire:target="archivo" class="mt-2 text-xs text-emerald-600">{{ __('Leyendo archivo...') }}</p>
         </div>
     </div>
 
@@ -257,7 +257,7 @@ new #[Title('Importar personal')] class extends Component {
         <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-md border border-zinc-200 dark:border-zinc-800 overflow-hidden">
             <div class="p-6 border-b border-zinc-100 dark:border-zinc-800">
                 <h2 class="text-base font-semibold text-zinc-900 dark:text-white mb-4 flex items-center gap-2">
-                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-teal-600 text-xs font-bold text-white">3</span>
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-emerald-600 text-xs font-bold text-white">3</span>
                     {{ __('Revisa y confirma') }}
                 </h2>
 
@@ -273,7 +273,7 @@ new #[Title('Importar personal')] class extends Component {
                         <span class="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300">{{ __(':n filas', ['n' => $r['total']]) }}</span>
                         @if ($r['crear']) <span class="px-2.5 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">{{ __(':n nuevos', ['n' => $r['crear']]) }}</span> @endif
                         @if ($r['actualizar']) <span class="px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300">{{ __(':n a actualizar', ['n' => $r['actualizar']]) }}</span> @endif
-                        @if ($r['horario']) <span class="px-2.5 py-1 rounded-full bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300">{{ __(':n horarios', ['n' => $r['horario']]) }}</span> @endif
+                        @if ($r['horario']) <span class="px-2.5 py-1 rounded-full bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">{{ __(':n horarios', ['n' => $r['horario']]) }}</span> @endif
                         @if ($r['omitir']) <span class="px-2.5 py-1 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300">{{ __(':n omitidos', ['n' => $r['omitir']]) }}</span> @endif
                         @if ($r['error']) <span class="px-2.5 py-1 rounded-full bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300">{{ __(':n con errores (no se importarán)', ['n' => $r['error']]) }}</span> @endif
                     </div>
@@ -308,7 +308,7 @@ new #[Title('Importar personal')] class extends Component {
                                             'inline-flex px-2 py-0.5 rounded-full font-semibold',
                                             'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' => $fila['accion'] === 'crear',
                                             'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300' => $fila['accion'] === 'actualizar',
-                                            'bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300' => $fila['accion'] === 'horario',
+                                            'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300' => $fila['accion'] === 'horario',
                                             'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300' => $fila['accion'] === 'omitir',
                                             'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300' => $fila['accion'] === 'error',
                                         ])>
@@ -334,7 +334,7 @@ new #[Title('Importar personal')] class extends Component {
                 </button>
                 <button type="button" wire:click="importar" wire:loading.attr="disabled" wire:target="importar"
                         @disabled($this->importables === 0)
-                        class="px-6 py-2.5 bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
                     <flux:icon.loading wire:loading wire:target="importar" variant="mini" class="w-4 h-4" />
                     <span wire:loading.remove wire:target="importar">{{ __('Importar :n filas válidas', ['n' => $this->importables]) }}</span>
                     <span wire:loading wire:target="importar">{{ __('Importando...') }}</span>

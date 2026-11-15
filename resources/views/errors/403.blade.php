@@ -10,7 +10,7 @@
             <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
                 {{ __('Tu cuenta no tiene permiso para ver esta sección. Pide a un administrador que te asigne un rol con el acceso necesario.') }}
             </p>
-            <a href="{{ route('dashboard') }}" class="mt-6 inline-flex items-center gap-2 rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-teal-500">
+            <a href="{{ route('dashboard') }}" class="mt-6 inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white shadow transition hover:bg-emerald-500">
                 <flux:icon.home class="h-4 w-4" />
                 {{ __('Volver al panel') }}
             </a>

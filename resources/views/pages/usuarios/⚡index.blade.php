@@ -117,7 +117,7 @@ new #[Title('Usuarios')] class extends Component {
             <p class="text-sm text-zinc-500 dark:text-zinc-300 mt-0.5">{{ __('Administra las cuentas que pueden ingresar al sistema.') }}</p>
         </div>
         <button wire:click="abrirNuevo" type="button"
-                class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
+                class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
             <flux:icon.plus class="w-4 h-4" />
             {{ __('Nuevo usuario') }}
         </button>
@@ -127,7 +127,7 @@ new #[Title('Usuarios')] class extends Component {
         <div class="relative max-w-sm">
             <flux:icon.magnifying-glass class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400" />
             <input wire:model.live.debounce.300ms="search" type="text" placeholder="{{ __('Nombre o correo...') }}"
-                   class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-teal-500 transition">
+                   class="w-full pl-9 pr-4 py-2.5 bg-white dark:bg-zinc-800 border border-zinc-300 dark:border-zinc-700 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 transition">
         </div>
     </div>
 
@@ -154,7 +154,7 @@ new #[Title('Usuarios')] class extends Component {
                             <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400">{{ $usuario->email }}</td>
                             <td class="px-4 py-3">
                                 @foreach ($usuario->roles as $rol)
-                                    <span class="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300">
+                                    <span class="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
                                         {{ $rol->name }}
                                     </span>
                                 @endforeach
