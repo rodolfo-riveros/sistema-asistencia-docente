@@ -139,6 +139,85 @@ new #[Title('Personal')] class extends Component {
         Flux::toast(variant: 'success', text: __('Horario copiado de lunes a viernes.'));
     }
 
+    /** Horario general que se aplica de una sola vez a los días marcados. */
+    public array $general = [
+        'doble' => false,
+        'hora_entrada' => '',
+        'hora_salida_maniana' => '',
+        'hora_entrada_tarde' => '',
+        'hora_salida' => '',
+        'tolerancia_minutos' => 10,
+    ];
+
+    public function toggleDia(int $dia): void
+    {
+        $this->horarios[$dia]['activo'] = ! $this->horarios[$dia]['activo'];
+
+        // Al marcar un día vacío, hereda el horario general si ya lo definieron.
+        if ($this->horarios[$dia]['activo'] && empty($this->horarios[$dia]['hora_entrada']) && ! empty($this->general['hora_entrada'])) {
+            $this->horarios[$dia] = ['activo' => true] + $this->general;
+        }
+    }
+
+    public function seleccionarDias(string $preset): void
+    {
+        $dias = match ($preset) {
+            'lv' => [1, 2, 3, 4, 5],
+            'lvs' => [1, 2, 3, 4, 5, 6],
+            'todos' => [1, 2, 3, 4, 5, 6, 7],
+            default => [],
+        };
+
+        foreach ($this->horarios as $dia => $h) {
+            $debeEstarActivo = in_array($dia, $dias, true);
+
+            if ($debeEstarActivo && ! $h['activo'] && ! empty($this->general['hora_entrada'])) {
+                $this->horarios[$dia] = ['activo' => true] + $this->general;
+            } else {
+                $this->horarios[$dia]['activo'] = $debeEstarActivo;
+            }
+        }
+    }
+
+    public function updatedGeneral($value, $key): void
+    {
+        if ($key === 'doble' && ! $value) {
+            $this->general['hora_salida_maniana'] = '';
+            $this->general['hora_entrada_tarde'] = '';
+        }
+    }
+
+    public function aplicarGeneral(): void
+    {
+        if (empty($this->general['hora_entrada']) || empty($this->general['hora_salida'])) {
+            Flux::toast(variant: 'danger', text: __('Define la hora de entrada y de salida del horario general.'));
+
+            return;
+        }
+
+        if ($this->general['doble'] && (empty($this->general['hora_salida_maniana']) || empty($this->general['hora_entrada_tarde']))) {
+            Flux::toast(variant: 'danger', text: __('En doble jornada completa también la salida de mañana y la entrada de tarde.'));
+
+            return;
+        }
+
+        $aplicados = 0;
+        foreach ($this->horarios as $dia => $h) {
+            if ($h['activo']) {
+                $this->horarios[$dia] = ['activo' => true] + $this->general;
+                $aplicados++;
+            }
+        }
+
+        if ($aplicados === 0) {
+            Flux::toast(variant: 'danger', text: __('Marca primero los días que trabaja.'));
+
+            return;
+        }
+
+        Flux::toast(variant: 'success', text: __('Horario aplicado a :n día(s).', ['n' => $aplicados]));
+    }
+
     public function consultarDni(): void
     {
         $this->validate(['dni' => 'required|digits:8']);
@@ -329,39 +408,90 @@ new #[Title('Personal')] class extends Component {
             </div>
 
             {{-- Horario --}}
-            <div class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
-                <div class="flex items-center justify-between gap-3 mb-4">
+            <div id="horarios" class="bg-white dark:bg-zinc-900 rounded-xl shadow-sm border border-zinc-200 dark:border-zinc-800 p-6">
+                <div class="flex items-center justify-between gap-3 mb-1">
                     <div class="flex items-center gap-2">
                         <flux:icon.clock class="size-5 text-teal-500" />
-                        <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ __('Gestión de Horarios') }}</h2>
+                        <h2 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ __('Horario de trabajo') }}</h2>
                     </div>
                     <span class="inline-flex px-2 py-0.5 rounded-full text-xs font-semibold bg-zinc-100 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300">
                         {{ trans_choice(':count día activo|:count días activos', collect($horarios)->where('activo', true)->count(), ['count' => collect($horarios)->where('activo', true)->count()]) }}
                     </span>
                 </div>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4">{{ __('Activa los días que labora y define su horario. Usa "Doble jornada" si tiene un descanso al mediodía.') }}</p>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-5">{{ __('Paso 1: marca los días que trabaja. Paso 2: define el horario general y aplícalo. Paso 3 (opcional): ajusta un día en particular.') }}</p>
 
-                <div class="space-y-4">
-                    @foreach (\App\Models\HorarioPersonals::DIAS as $dia => $label)
-                        <div wire:key="dia-{{ $dia }}" class="border border-zinc-100 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-900/50">
-                            <div class="flex items-center gap-4 mb-3 flex-wrap">
-                                <flux:checkbox wire:model.live="horarios.{{ $dia }}.activo" label="{{ $label }}" />
-
+                {{-- Paso 1: días --}}
+                <div class="mb-5">
+                    <div class="flex items-center justify-between flex-wrap gap-2 mb-2">
+                        <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('1. Días que trabaja') }}</span>
+                        <div class="flex items-center gap-1.5 text-xs">
+                            <button type="button" wire:click="seleccionarDias('lv')" class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition">{{ __('Lun–Vie') }}</button>
+                            <button type="button" wire:click="seleccionarDias('lvs')" class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition">{{ __('Lun–Sáb') }}</button>
+                            <button type="button" wire:click="seleccionarDias('ninguno')" class="px-2.5 py-1 rounded-md bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 transition">{{ __('Limpiar') }}</button>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-7 gap-1.5 sm:gap-2">
+                        @foreach (\App\Models\HorarioPersonals::DIAS_CORTO as $dia => $corto)
+                            <button type="button" wire:key="chip-{{ $dia }}" wire:click="toggleDia({{ $dia }})"
+                                    aria-pressed="{{ $horarios[$dia]['activo'] ? 'true' : 'false' }}"
+                                    @class([
+                                        'flex flex-col items-center justify-center rounded-lg border py-2.5 text-xs sm:text-sm font-semibold transition cursor-pointer',
+                                        'bg-teal-600 border-teal-600 text-white shadow-sm' => $horarios[$dia]['activo'],
+                                        'bg-white dark:bg-zinc-800 border-zinc-300 dark:border-zinc-700 text-zinc-600 dark:text-zinc-300 hover:border-teal-400' => ! $horarios[$dia]['activo'],
+                                    ])>
+                                <span>{{ $corto }}</span>
                                 @if ($horarios[$dia]['activo'])
-                                    <flux:checkbox wire:model.live="horarios.{{ $dia }}.doble" label="{{ __('Doble jornada') }}" />
-
-                                    @if ($dia === 1)
-                                        <button type="button" wire:click="copiarALaborables(1)"
-                                                class="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-xs font-medium transition">
-                                            <flux:icon.document-duplicate class="w-3.5 h-3.5" />
-                                            {{ __('Copiar a L-V') }}
-                                        </button>
-                                    @endif
+                                    <flux:icon.check class="w-3.5 h-3.5" />
                                 @endif
-                            </div>
+                            </button>
+                        @endforeach
+                    </div>
+                </div>
 
-                            @if ($horarios[$dia]['activo'])
-                                <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mt-2">
+                {{-- Paso 2: horario general --}}
+                <div class="rounded-lg border border-teal-200 dark:border-teal-900/60 bg-teal-50/60 dark:bg-teal-950/20 p-4 mb-5">
+                    <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                        <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('2. Horario general (para los días marcados)') }}</span>
+                        <flux:checkbox wire:model.live="general.doble" label="{{ __('Doble jornada') }}" />
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+                        <flux:input wire:model="general.hora_entrada" type="time" label="{{ __('Entrada') }}" />
+                        @if ($general['doble'])
+                            <flux:input wire:model="general.hora_salida_maniana" type="time" label="{{ __('Salida mañana') }}" />
+                            <flux:input wire:model="general.hora_entrada_tarde" type="time" label="{{ __('Entrada tarde') }}" />
+                        @endif
+                        <flux:input wire:model="general.hora_salida" type="time" label="{{ __('Salida') }}" />
+                        <flux:input wire:model="general.tolerancia_minutos" type="number" min="0" max="120" label="{{ __('Tolerancia (min)') }}" />
+                    </div>
+                    <button type="button" wire:click="aplicarGeneral"
+                            class="mt-3 inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold shadow transition">
+                        <flux:icon.arrow-down-circle class="w-4 h-4" />
+                        {{ __('Aplicar a los días marcados') }}
+                    </button>
+                </div>
+
+                {{-- Paso 3: detalle por día --}}
+                <div class="space-y-3">
+                    <span class="text-sm font-medium text-zinc-700 dark:text-zinc-300">{{ __('3. Detalle por día') }}</span>
+
+                    @php $hayActivos = collect($horarios)->where('activo', true)->isNotEmpty(); @endphp
+                    @unless ($hayActivos)
+                        <p class="text-sm text-zinc-400 py-3">{{ __('Aún no hay días marcados. Toca los días de arriba para activarlos.') }}</p>
+                    @endunless
+
+                    @foreach (\App\Models\HorarioPersonals::DIAS as $dia => $label)
+                        @if ($horarios[$dia]['activo'])
+                            <div wire:key="dia-{{ $dia }}" class="border border-zinc-100 dark:border-zinc-700 rounded-lg p-4 bg-zinc-50 dark:bg-zinc-900/50">
+                                <div class="flex items-center gap-3 mb-3 flex-wrap">
+                                    <span class="font-semibold text-zinc-800 dark:text-zinc-100">{{ $label }}</span>
+                                    <flux:checkbox wire:model.live="horarios.{{ $dia }}.doble" label="{{ __('Doble jornada') }}" />
+                                    <button type="button" wire:click="toggleDia({{ $dia }})" title="{{ __('Quitar este día') }}"
+                                            class="ml-auto p-1.5 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition">
+                                        <flux:icon.x-mark class="w-4 h-4" />
+                                    </button>
+                                </div>
+
+                                <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                                     <flux:input wire:model="horarios.{{ $dia }}.hora_entrada" type="time" label="{{ __('Entrada') }}" />
 
                                     @if ($horarios[$dia]['doble'])
@@ -374,8 +504,8 @@ new #[Title('Personal')] class extends Component {
                                 </div>
                                 <flux:error name="horarios.{{ $dia }}.hora_entrada" />
                                 <flux:error name="horarios.{{ $dia }}.hora_salida_maniana" />
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     @endforeach
                 </div>
             </div>

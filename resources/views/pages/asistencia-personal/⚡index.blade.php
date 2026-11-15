@@ -89,6 +89,8 @@ new #[Title('Asistencia de personal')] class extends Component {
 
     public function openModal(int $personalId, string $nombre, ?int $asistenciaId = null): void
     {
+        abort_unless(auth()->user()->can('asistencia.gestionar'), 403);
+
         $this->resetValidation();
         $this->personalId = $personalId;
         $this->modalNombre = $nombre;
@@ -116,6 +118,8 @@ new #[Title('Asistencia de personal')] class extends Component {
 
     public function saveManual(): void
     {
+        abort_unless(auth()->user()->can('asistencia.gestionar'), 403);
+
         $this->validate([
             'personalId' => 'required|exists:personal_ies,id',
             'modalEstado' => 'required|in:presente,tarde,ausente,justificado',
@@ -145,6 +149,8 @@ new #[Title('Asistencia de personal')] class extends Component {
 
     public function deleteAsistencia(int $id): void
     {
+        abort_unless(auth()->user()->can('asistencia.gestionar'), 403);
+
         Asistencia_personals::findOrFail($id)->delete();
         Flux::toast(variant: 'success', text: __('Registro eliminado.'));
     }
@@ -232,6 +238,13 @@ new #[Title('Asistencia de personal')] class extends Component {
                     <flux:icon.user-group class="w-4 h-4" />
                     {{ __('Gestionar personal') }}
                 </a>
+                @can('asistencia.gestionar')
+                    <a href="{{ route('asistencia-personal.importar') }}" wire:navigate
+                        class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-700 transition">
+                        <flux:icon.arrow-up-tray class="w-4 h-4" />
+                        {{ __('Cargar reporte del biométrico') }}
+                    </a>
+                @endcan
                 <a href="{{ route('asistencia-personal.reporte') }}" wire:navigate
                     class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
                     <flux:icon.document-chart-bar class="w-4 h-4" />
@@ -464,6 +477,7 @@ new #[Title('Asistencia de personal')] class extends Component {
 
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-center gap-1">
+                                        @can('asistencia.gestionar')
                                         <button wire:click="openModal({{ $p->id }}, '{{ addslashes($p->nombre_completo) }}', {{ $asis?->id ?? 'null' }})"
                                                 title="{{ $asis ? __('Editar asistencia') : __('Registrar asistencia manual') }}"
                                                 class="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition">
@@ -481,6 +495,7 @@ new #[Title('Asistencia de personal')] class extends Component {
                                                 <flux:icon.trash class="w-4 h-4" />
                                             </button>
                                         @endif
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ExportacionController;
 use App\Http\Controllers\Admin\ReporteAsistenciaPersonalController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,9 +14,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Personal
     Route::middleware('permission:personal.ver')->group(function () {
         Route::livewire('personal', 'pages::personal.index')->name('personal.index');
+        Route::get('personal/exportar', [ExportacionController::class, 'personal'])->name('personal.exportar');
     });
     Route::middleware('permission:personal.gestionar')->group(function () {
         Route::livewire('personal/nuevo', 'pages::personal.form')->name('personal.create');
+        Route::livewire('personal/importar', 'pages::personal.importar')->name('personal.importar');
+        Route::get('personal/plantilla', [ExportacionController::class, 'plantilla'])->name('personal.plantilla');
         Route::livewire('personal/{id}/editar', 'pages::personal.form')->name('personal.edit');
     });
 
@@ -23,10 +27,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::middleware('permission:asistencia.ver')->group(function () {
         Route::livewire('asistencia-personal', 'pages::asistencia-personal.index')->name('asistencia-personal.index');
     });
+    Route::middleware('permission:asistencia.gestionar')->group(function () {
+        Route::livewire('asistencia-personal/importar', 'pages::asistencia-personal.importar')->name('asistencia-personal.importar');
+    });
     Route::middleware('permission:reportes.ver')->group(function () {
         Route::livewire('asistencia-personal/reporte', 'pages::asistencia-personal.reporte')->name('asistencia-personal.reporte');
         Route::get('asistencia-personal/reporte/pdf', [ReporteAsistenciaPersonalController::class, 'pdf'])
             ->name('reporte-asistencia-personal.pdf');
+        Route::get('asistencia-personal/reporte/exportar', [ExportacionController::class, 'asistencia'])
+            ->name('reporte-asistencia-personal.exportar');
     });
 
     // Administración

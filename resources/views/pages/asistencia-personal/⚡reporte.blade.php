@@ -172,6 +172,16 @@ new #[Title('Reporte de asistencia')] class extends Component {
         $this->resumenReporte = [];
     }
 
+    public function getExportUrlProperty(): string
+    {
+        return route('reporte-asistencia-personal.exportar', [
+            'fecha_inicio' => $this->fecha_inicio,
+            'fecha_fin' => $this->fecha_fin,
+            'tipo_personal' => $this->tipo_personal,
+            'personal_id' => $this->personal_id,
+        ]);
+    }
+
     public function getPdfUrlProperty(): string
     {
         return route('reporte-asistencia-personal.pdf', [
@@ -249,6 +259,11 @@ new #[Title('Reporte de asistencia')] class extends Component {
                         <span wire:loading wire:target="generarReporte">{{ __('Generando...') }}</span>
                     </button>
                     @if ($mostrandoVista)
+                        <a href="{{ $this->exportUrl }}" title="{{ __('Descarga masiva (Excel)') }}"
+                           class="px-3 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition flex items-center justify-center gap-1.5">
+                            <flux:icon.arrow-down-tray class="w-5 h-5" />
+                            <span class="text-sm font-semibold">{{ __('Excel') }}</span>
+                        </a>
                         <a href="{{ $this->pdfUrl }}" target="_blank" title="{{ __('Abrir para imprimir') }}"
                            class="px-3 py-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 rounded-lg transition flex items-center justify-center">
                             <flux:icon.printer class="w-5 h-5" />

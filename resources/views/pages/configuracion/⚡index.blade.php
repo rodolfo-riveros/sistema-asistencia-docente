@@ -28,9 +28,22 @@ new #[Title('Configuración')] class extends Component {
         Flux::toast(variant: 'success', text: __('Nombre actualizado.'));
     }
 
+    // Se guarda automáticamente al elegir el archivo, sin un segundo paso.
+    public function updatedLogo(): void
+    {
+        $this->subirLogo();
+    }
+
     public function subirLogo(): void
     {
-        $this->validate(['logo' => 'required|image|max:1024']);
+        $this->validate(
+            ['logo' => 'required|file|mimes:png,jpg,jpeg,webp,gif,svg|max:2048'],
+            [
+                'logo.mimes' => __('El logo debe ser PNG, JPG, WEBP, GIF o SVG.'),
+                'logo.max' => __('El logo no puede pesar más de 2 MB.'),
+                'logo.uploaded' => __('No se pudo subir el archivo (revisa que pese menos de 2 MB).'),
+            ]
+        );
 
         $settings = SiteSetting::current();
 
@@ -90,7 +103,7 @@ new #[Title('Configuración')] class extends Component {
 
             <div class="flex items-center gap-4 mb-5">
                 <div class="flex items-center justify-center w-16 h-16 rounded-xl border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 overflow-hidden">
-                    @if ($logo)
+                    @if ($logo && ! $errors->has('logo') && $logo->isPreviewable())
                         <img src="{{ $logo->temporaryUrl() }}" class="size-full object-contain">
                     @elseif (SiteSetting::current()->logo_url)
                         <img src="{{ SiteSetting::current()->logo_url }}" class="size-full object-contain">
@@ -100,15 +113,13 @@ new #[Title('Configuración')] class extends Component {
                 </div>
 
                 <form wire:submit="subirLogo" class="flex-1 flex flex-col gap-3">
-                    <input type="file" wire:model="logo" accept="image/*"
+                    <input type="file" wire:model="logo" accept=".png,.jpg,.jpeg,.webp,.gif,.svg,image/*"
                            class="block w-full text-sm text-zinc-500 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-zinc-100 dark:file:bg-zinc-800 file:text-zinc-700 dark:file:text-zinc-300 hover:file:bg-zinc-200 dark:hover:file:bg-zinc-700">
                     @error('logo') <p class="text-xs text-red-500">{{ $message }}</p> @enderror
 
+                    <p wire:loading wire:target="logo" class="text-xs text-teal-600">{{ __('Subiendo logo...') }}</p>
+
                     <div class="flex gap-2">
-                        <button type="submit" wire:loading.attr="disabled" wire:target="logo,subirLogo"
-                                class="px-4 py-2 bg-teal-600 hover:bg-teal-500 text-white text-sm font-semibold rounded-lg shadow transition disabled:opacity-70">
-                            {{ __('Subir logo') }}
-                        </button>
                         @if (SiteSetting::current()->logo_path)
                             <button type="button" wire:click="quitarLogo" wire:confirm="{{ __('¿Quitar el logo actual?') }}"
                                     class="px-4 py-2 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 text-sm font-medium rounded-lg transition">
@@ -118,7 +129,7 @@ new #[Title('Configuración')] class extends Component {
                     </div>
                 </form>
             </div>
-            <p class="text-xs text-zinc-400">{{ __('PNG, JPG o SVG. Máximo 1 MB. Se recomienda un logo cuadrado.') }}</p>
+            <p class="text-xs text-zinc-400">{{ __('PNG, JPG, WEBP, GIF o SVG. Máximo 2 MB. Se guarda al elegir el archivo. Se recomienda un logo cuadrado.') }}</p>
         </div>
     </div>
 </div>

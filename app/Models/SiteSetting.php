@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Storage;
 
 class SiteSetting extends Model
 {
@@ -41,7 +40,8 @@ class SiteSetting extends Model
 
     public function getLogoUrlAttribute(): ?string
     {
-        return $this->logo_path ? Storage::disk('public')->url($this->logo_path) : null;
+        // asset() usa el host de la petición actual, así el logo carga sin importar APP_URL.
+        return $this->logo_path ? asset('storage/'.$this->logo_path) : null;
     }
 
     public function getDisplayNameAttribute(): string

@@ -44,12 +44,16 @@ new #[Title('Personal')] class extends Component {
 
     public function toggleActivo(int $id): void
     {
+        abort_unless(auth()->user()->can('personal.gestionar'), 403);
+
         $personal = Personal_ies::findOrFail($id);
         $personal->update(['activo' => ! $personal->activo]);
     }
 
     public function delete(int $id): void
     {
+        abort_unless(auth()->user()->can('personal.gestionar'), 403);
+
         Personal_ies::findOrFail($id)->delete();
     }
 
@@ -57,6 +61,7 @@ new #[Title('Personal')] class extends Component {
     public function personal()
     {
         return Personal_ies::query()
+            ->with(['horarios' => fn ($q) => $q->activos()->orderBy('dia_semana')])
             ->when($this->search, fn ($q) => $q->where(function ($q) {
                 $q->where('nombres', 'like', "%{$this->search}%")
                     ->orWhere('apellido_paterno', 'like', "%{$this->search}%")
@@ -106,11 +111,25 @@ new #[Title('Personal')] class extends Component {
                 </div>
             </div>
 
-            <a href="{{ route('personal.create') }}" wire:navigate
-                class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
-                <flux:icon.plus class="w-4 h-4" />
-                {{ __('Nuevo personal') }}
-            </a>
+            <div class="flex items-center gap-3 flex-wrap">
+                <a href="{{ route('personal.exportar', array_filter(['search' => $search, 'tipo' => $tipo, 'activo' => $activo], fn ($v) => $v !== '')) }}"
+                   class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/80 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-700 transition">
+                    <flux:icon.arrow-down-tray class="w-4 h-4" />
+                    {{ __('Descarga masiva (Excel)') }}
+                </a>
+                @can('personal.gestionar')
+                    <a href="{{ route('personal.importar') }}" wire:navigate
+                       class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-white/80 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-sm font-medium text-zinc-700 dark:text-zinc-300 hover:bg-white dark:hover:bg-zinc-700 transition">
+                        <flux:icon.arrow-up-tray class="w-4 h-4" />
+                        {{ __('Importar (Excel/CSV)') }}
+                    </a>
+                    <a href="{{ route('personal.create') }}" wire:navigate
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white font-semibold shadow-xl hover:shadow-2xl transition-all duration-200 hover:scale-105">
+                        <flux:icon.plus class="w-4 h-4" />
+                        {{ __('Nuevo personal') }}
+                    </a>
+                @endcan
+            </div>
         </div>
     </div>
 
@@ -166,10 +185,12 @@ new #[Title('Personal')] class extends Component {
                 <table class="w-full text-sm">
                     <thead class="bg-zinc-50 dark:bg-zinc-800 border-b border-zinc-200 dark:border-zinc-700">
                         <tr>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider" title="{{ __('Código que se usa en el reloj biométrico y en la API') }}">{{ __('ID') }}</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Personal') }}</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('DNI') }}</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Tipo') }}</th>
                             <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Cargo') }}</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Horario') }}</th>
                             <th class="px-4 py-3 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Estado') }}</th>
                             <th class="px-4 py-3 text-center text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider">{{ __('Acciones') }}</th>
                         </tr>
@@ -177,6 +198,7 @@ new #[Title('Personal')] class extends Component {
                     <tbody class="divide-y divide-zinc-100 dark:divide-zinc-800">
                         @foreach ($this->personal as $p)
                             <tr wire:key="personal-{{ $p->id }}" class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition">
+                                <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400 font-mono text-xs">{{ $p->id }}</td>
                                 <td class="px-4 py-3">
                                     <div class="font-semibold text-zinc-900 dark:text-white">{{ $p->nombre_completo }}</div>
                                     @if ($p->telefono)
@@ -196,6 +218,20 @@ new #[Title('Personal')] class extends Component {
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-zinc-600 dark:text-zinc-400 text-xs">{{ $p->cargo ?? '—' }}</td>
+                                <td class="px-4 py-3 text-xs">
+                                    @if ($p->horarios->isNotEmpty())
+                                        <div class="flex flex-wrap gap-1 max-w-xs">
+                                            @foreach ($p->horarios as $h)
+                                                <span class="bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-1.5 py-0.5 rounded text-[10px]"
+                                                      title="{{ \App\Models\HorarioPersonals::DIAS[$h->dia_semana] }}">
+                                                    {{ \App\Models\HorarioPersonals::DIAS_CORTO[$h->dia_semana] }} {{ substr($h->hora_entrada, 0, 5) }}–{{ substr($h->hora_salida, 0, 5) }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <span class="text-amber-600 dark:text-amber-400">{{ __('Sin horario') }}</span>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 text-center">
                                     <button wire:click="toggleActivo({{ $p->id }})"
                                             @class([
@@ -209,7 +245,12 @@ new #[Title('Personal')] class extends Component {
                                 </td>
                                 <td class="px-4 py-3">
                                     <div class="flex items-center justify-center gap-1">
-                                        <a href="{{ route('personal.edit', $p->id) }}" wire:navigate
+                                        @can('personal.gestionar')
+                                        <a href="{{ route('personal.edit', $p->id) }}#horarios" title="{{ __('Configurar horario') }}"
+                                           class="p-1.5 rounded-lg text-teal-600 dark:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/30 transition">
+                                            <flux:icon.clock class="w-4 h-4" />
+                                        </a>
+                                        <a href="{{ route('personal.edit', $p->id) }}" wire:navigate title="{{ __('Editar') }}"
                                            class="p-1.5 rounded-lg text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition">
                                             <flux:icon.pencil-square class="w-4 h-4" />
                                         </a>
@@ -218,6 +259,7 @@ new #[Title('Personal')] class extends Component {
                                                 class="p-1.5 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/30 transition">
                                             <flux:icon.trash class="w-4 h-4" />
                                         </button>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>
